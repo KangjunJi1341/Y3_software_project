@@ -5360,3 +5360,301 @@
 2025-10-26 19:38:26,530 [INFO] [DETAIL] (11/12) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/aeronautical-engineering
 2025-10-26 19:38:39,024 [INFO] [DETAIL] (12/12) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/aeronautics-spacecraft-engineering
 2025-10-26 19:38:39,025 [INFO] [DONE] saved -> imperial_courses.csv
+2025-10-26 19:50:39,706 [INFO] [SEARCH] visiting page 1: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=1
+2025-10-26 19:50:49,428 [INFO] [SEARCH] page 1: total 12 links
+2025-10-26 19:50:51,599 [INFO] Found 12 course links.
+2025-10-26 19:51:04,128 [INFO] [DETAIL] (1/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-aeronautical-engineering
+2025-10-26 19:51:16,551 [INFO] [DETAIL] (2/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-chemical-engineering
+2025-10-26 19:51:29,364 [INFO] [DETAIL] (3/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-computing
+2025-10-26 19:51:42,534 [INFO] [DETAIL] (4/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-materials
+2025-10-26 19:51:55,459 [INFO] [DETAIL] (5/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-materials-sustainable-infrastructure
+2025-10-26 19:52:07,052 [INFO] [DETAIL] (6/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-mechanical-engineering
+2025-10-26 19:52:18,902 [INFO] [DETAIL] (7/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/analogue-digital-circuit-design
+2025-10-26 19:52:31,220 [INFO] [DETAIL] (8/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/chemical-engineering-biotechnology
+2025-10-26 19:52:43,498 [INFO] [DETAIL] (9/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computational-methods
+2025-10-26 19:52:55,425 [INFO] [DETAIL] (10/12) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-synthesis
+2025-10-26 19:53:10,583 [INFO] [DETAIL] (11/12) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/aeronautical-engineering
+2025-10-26 19:53:22,781 [INFO] [DETAIL] (12/12) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/aeronautics-spacecraft-engineering
+2025-10-26 19:53:22,781 [INFO] [DONE] saved -> imperial_courses.csv
+2025-10-26 19:58:11,842 [INFO] [SEARCH] visiting page 1: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=1
+2025-10-26 19:58:20,179 [INFO] [SEARCH] page 1: total 12 links
+2025-10-26 19:58:20,179 [INFO] [SEARCH] visiting page 2: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=2
+2025-10-26 19:58:29,115 [INFO] [SEARCH] page 2: total 24 links
+2025-10-26 19:58:29,116 [INFO] [SEARCH] visiting page 3: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=3
+2025-10-26 19:58:37,713 [INFO] [SEARCH] page 3: total 36 links
+2025-10-26 19:58:37,713 [INFO] [SEARCH] visiting page 4: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=4
+2025-10-26 19:58:45,949 [INFO] [SEARCH] page 4: total 48 links
+2025-10-26 19:58:45,950 [INFO] [SEARCH] visiting page 5: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=5
+2025-10-26 19:58:54,150 [INFO] [SEARCH] page 5: total 60 links
+2025-10-26 19:58:54,150 [INFO] [SEARCH] visiting page 6: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=6
+2025-10-26 19:59:02,080 [INFO] [SEARCH] page 6: total 72 links
+2025-10-26 19:59:02,081 [INFO] [SEARCH] visiting page 7: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=7
+2025-10-26 19:59:09,897 [INFO] [SEARCH] page 7: total 84 links
+2025-10-26 19:59:09,898 [INFO] [SEARCH] visiting page 8: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=8
+2025-10-26 19:59:18,169 [INFO] [SEARCH] page 8: total 96 links
+2025-10-26 19:59:18,170 [INFO] [SEARCH] visiting page 9: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=9
+2025-10-26 19:59:26,356 [INFO] [SEARCH] page 9: total 108 links
+2025-10-26 19:59:26,356 [INFO] [SEARCH] visiting page 10: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=10
+2025-10-26 19:59:34,727 [INFO] [SEARCH] page 10: total 120 links
+2025-10-26 19:59:34,728 [INFO] [SEARCH] visiting page 11: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=11
+2025-10-26 19:59:43,181 [INFO] [SEARCH] page 11: total 132 links
+2025-10-26 19:59:43,182 [INFO] [SEARCH] visiting page 12: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=12
+2025-10-26 19:59:51,178 [INFO] [SEARCH] page 12: total 144 links
+2025-10-26 19:59:51,179 [INFO] [SEARCH] visiting page 13: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=13
+2025-10-26 19:59:59,806 [INFO] [SEARCH] page 13: total 156 links
+2025-10-26 19:59:59,806 [INFO] [SEARCH] visiting page 14: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=14
+2025-10-26 20:00:08,732 [INFO] [SEARCH] page 14: total 168 links
+2025-10-26 20:00:08,733 [INFO] [SEARCH] visiting page 15: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=15
+2025-10-26 20:00:17,160 [INFO] [SEARCH] page 15: total 180 links
+2025-10-26 20:00:17,161 [INFO] [SEARCH] visiting page 16: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=16
+2025-10-26 20:00:25,589 [INFO] [SEARCH] page 16: total 192 links
+2025-10-26 20:00:25,590 [INFO] [SEARCH] visiting page 17: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=17
+2025-10-26 20:00:34,319 [INFO] [SEARCH] page 17: total 204 links
+2025-10-26 20:00:34,320 [INFO] [SEARCH] visiting page 18: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=18
+2025-10-26 20:00:42,922 [INFO] [SEARCH] page 18: total 216 links
+2025-10-26 20:00:42,923 [INFO] [SEARCH] visiting page 19: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=19
+2025-10-26 20:00:51,607 [INFO] [SEARCH] page 19: total 228 links
+2025-10-26 20:00:51,608 [INFO] [SEARCH] visiting page 20: https://www.imperial.ac.uk/study/courses/?courseType=Undergraduate&courseType=Postgraduate+taught&page=20
+2025-10-26 20:01:00,016 [INFO] [SEARCH] page 20: total 240 links
+2025-10-26 20:01:02,328 [INFO] Found 240 course links.
+2025-10-26 20:01:18,936 [INFO] [DETAIL] (1/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-aeronautical-engineering
+2025-10-26 20:01:31,993 [INFO] [DETAIL] (2/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-chemical-engineering
+2025-10-26 20:01:44,577 [INFO] [DETAIL] (3/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-computing
+2025-10-26 20:01:57,325 [INFO] [DETAIL] (4/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-materials
+2025-10-26 20:02:10,052 [INFO] [DETAIL] (5/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-materials-sustainable-infrastructure
+2025-10-26 20:02:21,494 [INFO] [DETAIL] (6/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/advanced-mechanical-engineering
+2025-10-26 20:02:35,181 [INFO] [DETAIL] (7/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/analogue-digital-circuit-design
+2025-10-26 20:02:47,554 [INFO] [DETAIL] (8/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/applications-innovation
+2025-10-26 20:03:00,158 [INFO] [DETAIL] (9/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/applied-computational-science
+2025-10-26 20:03:12,646 [INFO] [DETAIL] (10/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/applied-machine-learning
+2025-10-26 20:03:25,114 [INFO] [DETAIL] (11/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/applied-mathematics
+2025-10-26 20:03:35,599 [INFO] [DETAIL] (12/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/applied-multiomics-biomedicine
+2025-10-26 20:03:48,659 [INFO] [DETAIL] (13/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/applied-paediatrics
+2025-10-26 20:03:59,306 [INFO] [DETAIL] (14/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/artificial-intelligence
+2025-10-26 20:04:11,750 [INFO] [DETAIL] (15/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/artificial-intelligence-machine-learning
+2025-10-26 20:04:24,504 [INFO] [DETAIL] (16/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/bacterial-pathogenesis-infection
+2025-10-26 20:04:37,282 [INFO] [DETAIL] (17/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/bioengineering-mres
+2025-10-26 20:04:50,114 [INFO] [DETAIL] (18/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/bioinformatics
+2025-10-26 20:05:01,945 [INFO] [DETAIL] (19/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biological-physical-chemistry
+2025-10-26 20:05:14,180 [INFO] [DETAIL] (20/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biomedical-engineering-biomaterials
+2025-10-26 20:05:25,883 [INFO] [DETAIL] (21/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biomedical-engineering-biomechanics
+2025-10-26 20:05:38,321 [INFO] [DETAIL] (22/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biomedical-engineering-computational
+2025-10-26 20:05:51,137 [INFO] [DETAIL] (23/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biomedical-engineering-medical
+2025-10-26 20:06:03,197 [INFO] [DETAIL] (24/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biomedical-engineering-neurotechnology
+2025-10-26 20:06:15,696 [INFO] [DETAIL] (25/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biomedical-research
+2025-10-26 20:06:28,535 [INFO] [DETAIL] (26/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/bioscience-futures
+2025-10-26 20:06:40,317 [INFO] [DETAIL] (27/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biosciences-biotechnology
+2025-10-26 20:06:53,078 [INFO] [DETAIL] (28/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/biosystematics
+2025-10-26 20:07:06,815 [INFO] [DETAIL] (29/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/business-analytics
+2025-10-26 20:07:20,314 [INFO] [DETAIL] (30/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/business-mres
+2025-10-26 20:07:33,613 [INFO] [DETAIL] (31/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/cancer-biology
+2025-10-26 20:07:46,919 [INFO] [DETAIL] (32/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/cancer-informatics
+2025-10-26 20:08:00,091 [INFO] [DETAIL] (33/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/cancer-innovation
+2025-10-26 20:08:13,374 [INFO] [DETAIL] (34/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/cancer-technology
+2025-10-26 20:08:26,544 [INFO] [DETAIL] (35/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/cardiovascular-healthcare
+2025-10-26 20:08:39,264 [INFO] [DETAIL] (36/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/catalysis
+2025-10-26 20:08:51,600 [INFO] [DETAIL] (37/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/chemical-biology
+2025-10-26 20:09:05,140 [INFO] [DETAIL] (38/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/chemical-engineering-biotechnology
+2025-10-26 20:09:18,421 [INFO] [DETAIL] (39/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/cleantech-innovation
+2025-10-26 20:09:31,435 [INFO] [DETAIL] (40/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/climate-change-management-finance
+2025-10-26 20:09:44,581 [INFO] [DETAIL] (41/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/clinical-research
+2025-10-26 20:09:58,990 [INFO] [DETAIL] (42/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/clinical-robotics-ai
+2025-10-26 20:10:13,074 [INFO] [DETAIL] (43/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/communications-signal-processing
+2025-10-26 20:10:27,910 [INFO] [DETAIL] (44/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/composites
+2025-10-26 20:10:42,459 [INFO] [DETAIL] (45/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computational-methods
+2025-10-26 20:10:55,696 [INFO] [DETAIL] (46/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computational-methods-ecology-evolution-mres
+2025-10-26 20:11:09,000 [INFO] [DETAIL] (47/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computational-methods-ecology-evolution-msc
+2025-10-26 20:11:21,994 [INFO] [DETAIL] (48/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computing
+2025-10-26 20:11:34,417 [INFO] [DETAIL] (49/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computing-artificial-intelligence-msc
+2025-10-26 20:11:46,834 [INFO] [DETAIL] (50/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computing-management-finance
+2025-10-26 20:11:59,719 [INFO] [DETAIL] (51/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computing-security-reliability-msc
+2025-10-26 20:12:12,929 [INFO] [DETAIL] (52/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computing-software-engineering-msc
+2025-10-26 20:12:24,783 [INFO] [DETAIL] (53/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/computing-visual-computing-robotics-msc
+2025-10-26 20:12:37,619 [INFO] [DETAIL] (54/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/concrete-structures
+2025-10-26 20:12:51,194 [INFO] [DETAIL] (55/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/conservation-science-practice
+2025-10-26 20:13:05,496 [INFO] [DETAIL] (56/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/control-optimisation
+2025-10-26 20:13:18,579 [INFO] [DETAIL] (57/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/data-science
+2025-10-26 20:13:32,643 [INFO] [DETAIL] (58/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/design-behaviour
+2025-10-26 20:13:46,345 [INFO] [DETAIL] (59/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/design-engineering-mres
+2025-10-26 20:13:59,532 [INFO] [DETAIL] (60/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/design-engineering-msc
+2025-10-26 20:14:14,040 [INFO] [DETAIL] (61/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/diabetes-obesity
+2025-10-26 20:14:28,181 [INFO] [DETAIL] (62/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/digital-chemistry
+2025-10-26 20:14:42,476 [INFO] [DETAIL] (63/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/digital-health-leadership
+2025-10-26 20:14:56,628 [INFO] [DETAIL] (64/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/drug-discovery-development
+2025-10-26 20:15:10,701 [INFO] [DETAIL] (65/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/earthquake-engineering
+2025-10-26 20:15:24,205 [INFO] [DETAIL] (66/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/ecology-evolution-conservation
+2025-10-26 20:15:37,224 [INFO] [DETAIL] (67/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/ecology-evolution-conservation-research
+2025-10-26 20:15:50,858 [INFO] [DETAIL] (68/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/economics-strategy-business
+2025-10-26 20:16:04,118 [INFO] [DETAIL] (69/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/ecosystems
+2025-10-26 20:16:17,550 [INFO] [DETAIL] (70/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/engineering-biomedicine
+2025-10-26 20:16:30,196 [INFO] [DETAIL] (71/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/environmental-data-science-machine-learning
+2025-10-26 20:16:42,920 [INFO] [DETAIL] (72/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/environmental-engineering
+2025-10-26 20:16:55,372 [INFO] [DETAIL] (73/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/environmental-engineering-data-science
+2025-10-26 20:17:07,686 [INFO] [DETAIL] (74/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/environmental-technology
+2025-10-26 20:17:19,750 [INFO] [DETAIL] (75/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/epidemiology
+2025-10-26 20:17:32,498 [INFO] [DETAIL] (76/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/epidemiology-evolution-control-infectious-diseases
+2025-10-26 20:17:45,108 [INFO] [DETAIL] (77/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/executive-mba
+2025-10-26 20:17:57,659 [INFO] [DETAIL] (78/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/experimental-biomolecular-sciences
+2025-10-26 20:18:10,289 [INFO] [DETAIL] (79/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/experimental-neuroscience
+2025-10-26 20:18:22,731 [INFO] [DETAIL] (80/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/finance
+2025-10-26 20:18:35,239 [INFO] [DETAIL] (81/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/finance-accounting
+2025-10-26 20:18:47,581 [INFO] [DETAIL] (82/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/financial-technology
+2025-10-26 20:18:59,891 [INFO] [DETAIL] (83/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/fluid-mechanics
+2025-10-26 20:19:12,472 [INFO] [DETAIL] (84/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/full-time-mba
+2025-10-26 20:19:24,829 [INFO] [DETAIL] (85/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/fusion-plasma
+2025-10-26 20:19:37,388 [INFO] [DETAIL] (86/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/future-power-networks
+2025-10-26 20:19:50,451 [INFO] [DETAIL] (87/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/general-structural-engineering
+2025-10-26 20:20:03,351 [INFO] [DETAIL] (88/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/genes-drugs-stem-cells
+2025-10-26 20:20:16,653 [INFO] [DETAIL] (89/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/genomic-medicine
+2025-10-26 20:20:28,860 [INFO] [DETAIL] (90/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/geo-energy-machine-learning-data-science
+2025-10-26 20:20:41,490 [INFO] [DETAIL] (91/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/geotechnical-earthquake-engineering
+2025-10-26 20:20:54,033 [INFO] [DETAIL] (92/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/geotechnical-engineering
+2025-10-26 20:21:06,557 [INFO] [DETAIL] (93/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/geotechnical-engineering-data-science
+2025-10-26 20:21:18,957 [INFO] [DETAIL] (94/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/geotechnical-geoenvironmental-engineering
+2025-10-26 20:21:31,369 [INFO] [DETAIL] (95/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/geotechnical-geological-engineering
+2025-10-26 20:21:43,838 [INFO] [DETAIL] (96/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/global-health-management
+2025-10-26 20:21:56,080 [INFO] [DETAIL] (97/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/global-mba
+2025-10-26 20:22:08,096 [INFO] [DETAIL] (98/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/green-chemistry
+2025-10-26 20:22:20,251 [INFO] [DETAIL] (99/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/health-data-analytics
+2025-10-26 20:22:33,097 [INFO] [DETAIL] (100/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/health-policy
+2025-10-26 20:22:45,072 [INFO] [DETAIL] (101/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/human-biological-robotics
+2025-10-26 20:22:57,829 [INFO] [DETAIL] (102/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/human-molecular-genetics
+2025-10-26 20:23:10,811 [INFO] [DETAIL] (103/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/human-nutrition
+2025-10-26 20:23:23,077 [INFO] [DETAIL] (104/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/hydrology
+2025-10-26 20:23:35,502 [INFO] [DETAIL] (105/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/immunology
+2025-10-26 20:23:47,701 [INFO] [DETAIL] (106/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/innovation-design-engineering
+2025-10-26 20:24:00,186 [INFO] [DETAIL] (107/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/innovation-entrepreneurship-management
+2025-10-26 20:24:12,596 [INFO] [DETAIL] (108/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/investment-wealth-management
+2025-10-26 20:24:25,029 [INFO] [DETAIL] (109/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/machine-learning-data-science
+2025-10-26 20:24:37,344 [INFO] [DETAIL] (110/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/machine-learning-physical-sciences
+2025-10-26 20:24:49,946 [INFO] [DETAIL] (111/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/management
+2025-10-26 20:25:02,240 [INFO] [DETAIL] (112/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/mathematics-finance
+2025-10-26 20:25:15,205 [INFO] [DETAIL] (113/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/medical-device-design
+2025-10-26 20:25:27,559 [INFO] [DETAIL] (114/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/medical-robotics
+2025-10-26 20:25:39,962 [INFO] [DETAIL] (115/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/medical-ultrasound-echocardiography
+2025-10-26 20:25:52,396 [INFO] [DETAIL] (116/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/medical-ultrasound-vascular
+2025-10-26 20:26:05,083 [INFO] [DETAIL] (117/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/microbiome-health-disease
+2025-10-26 20:26:17,528 [INFO] [DETAIL] (118/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-basis-of-human-disease
+2025-10-26 20:26:30,084 [INFO] [DETAIL] (119/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-biology
+2025-10-26 20:26:42,468 [INFO] [DETAIL] (120/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-cellular-biosciences
+2025-10-26 20:26:54,758 [INFO] [DETAIL] (121/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-medicine
+2025-10-26 20:27:07,052 [INFO] [DETAIL] (122/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-plant-microbial-sciences
+2025-10-26 20:27:19,394 [INFO] [DETAIL] (123/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/molecular-synthesis
+2025-10-26 20:27:31,857 [INFO] [DETAIL] (124/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/mph-online
+2025-10-26 20:27:43,919 [INFO] [DETAIL] (125/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/nanomaterials
+2025-10-26 20:27:56,351 [INFO] [DETAIL] (126/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/nanomedicine
+2025-10-26 20:28:08,582 [INFO] [DETAIL] (127/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/nature-based-solutions
+2025-10-26 20:28:21,209 [INFO] [DETAIL] (128/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/neurotechnology
+2025-10-26 20:28:33,688 [INFO] [DETAIL] (129/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/offshore-renewables
+2025-10-26 20:28:45,926 [INFO] [DETAIL] (130/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/optics-photonics
+2025-10-26 20:28:58,244 [INFO] [DETAIL] (131/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/photonics
+2025-10-26 20:29:10,422 [INFO] [DETAIL] (132/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/physics
+2025-10-26 20:29:22,974 [INFO] [DETAIL] (133/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/physics-extended-research
+2025-10-26 20:29:35,254 [INFO] [DETAIL] (134/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/physics-quantum-dynamics
+2025-10-26 20:29:47,834 [INFO] [DETAIL] (135/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/process-systems-engineering
+2025-10-26 20:30:00,005 [INFO] [DETAIL] (136/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/public-health-masters
+2025-10-26 20:30:12,255 [INFO] [DETAIL] (137/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/pure-mathematics-formalisation-msc
+2025-10-26 20:30:24,917 [INFO] [DETAIL] (138/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/pure-mathematics-msc
+2025-10-26 20:30:37,484 [INFO] [DETAIL] (139/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/quantum-fields-fundamental-forces
+2025-10-26 20:30:49,579 [INFO] [DETAIL] (140/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/renewable-energy
+2025-10-26 20:31:02,225 [INFO] [DETAIL] (141/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/reproductive-developmental-biology
+2025-10-26 20:31:14,855 [INFO] [DETAIL] (142/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/respiratory-cardiovascular-science
+2025-10-26 20:31:27,897 [INFO] [DETAIL] (143/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/responsible-mining-metals-finance
+2025-10-26 20:31:39,722 [INFO] [DETAIL] (144/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/risk-management-financial-engineering
+2025-10-26 20:31:51,942 [INFO] [DETAIL] (145/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/science-communication
+2025-10-26 20:32:04,668 [INFO] [DETAIL] (146/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/science-media-production
+2025-10-26 20:32:17,712 [INFO] [DETAIL] (147/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/security-resilience-science-technology
+2025-10-26 20:32:30,475 [INFO] [DETAIL] (148/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/sensor-systems
+2025-10-26 20:32:43,368 [INFO] [DETAIL] (149/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/soft-electronic-materials
+2025-10-26 20:32:56,321 [INFO] [DETAIL] (150/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/statistics
+2025-10-26 20:33:09,550 [INFO] [DETAIL] (151/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/statistics-applied-statistics
+2025-10-26 20:33:21,620 [INFO] [DETAIL] (152/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/statistics-biostatistics
+2025-10-26 20:33:35,013 [INFO] [DETAIL] (153/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/statistics-data-science
+2025-10-26 20:33:48,421 [INFO] [DETAIL] (154/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/statistics-statistical-finance
+2025-10-26 20:34:00,783 [INFO] [DETAIL] (155/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/statistics-theory-methods
+2025-10-26 20:34:13,189 [INFO] [DETAIL] (156/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/strategic-marketing
+2025-10-26 20:34:26,507 [INFO] [DETAIL] (157/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/strategic-marketing-online
+2025-10-26 20:34:39,440 [INFO] [DETAIL] (158/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/structural-biology
+2025-10-26 20:34:51,328 [INFO] [DETAIL] (159/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/structural-engineering-data-science
+2025-10-26 20:35:03,709 [INFO] [DETAIL] (160/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/structural-steel-design
+2025-10-26 20:35:16,054 [INFO] [DETAIL] (161/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/sustainable-agriculture-technology
+2025-10-26 20:35:28,074 [INFO] [DETAIL] (162/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/sustainable-energy-futures
+2025-10-26 20:35:40,035 [INFO] [DETAIL] (163/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/systems-synthetic-biology
+2025-10-26 20:35:51,427 [INFO] [DETAIL] (164/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/taxonomy-biodiversity
+2025-10-26 20:36:03,376 [INFO] [DETAIL] (165/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/translational-neuroscience
+2025-10-26 20:36:15,891 [INFO] [DETAIL] (166/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/translational-research-perioperative
+2025-10-26 20:36:28,140 [INFO] [DETAIL] (167/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/transport
+2025-10-26 20:36:40,081 [INFO] [DETAIL] (168/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/transport-data-science
+2025-10-26 20:36:52,038 [INFO] [DETAIL] (169/240) done https://www.imperial.ac.uk/study/courses/postgraduate-taught/2026/weekend-mba
+2025-10-26 20:37:06,461 [INFO] [DETAIL] (170/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/aeronautical-engineering
+2025-10-26 20:37:19,681 [INFO] [DETAIL] (171/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/aeronautics-spacecraft-engineering
+2025-10-26 20:37:32,368 [INFO] [DETAIL] (172/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biochemistry-bsc
+2025-10-26 20:37:46,023 [INFO] [DETAIL] (173/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biochemistry-language
+2025-10-26 20:37:59,091 [INFO] [DETAIL] (174/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biochemistry-management
+2025-10-26 20:38:10,971 [INFO] [DETAIL] (175/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biochemistry-msci
+2025-10-26 20:38:24,030 [INFO] [DETAIL] (176/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biological-sciences
+2025-10-26 20:38:37,584 [INFO] [DETAIL] (177/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biological-sciences-language
+2025-10-26 20:38:50,288 [INFO] [DETAIL] (178/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biological-sciences-management
+2025-10-26 20:39:02,862 [INFO] [DETAIL] (179/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biological-sciences-msci
+2025-10-26 20:39:15,731 [INFO] [DETAIL] (180/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biomaterials-tissue-engineering-meng
+2025-10-26 20:39:29,800 [INFO] [DETAIL] (181/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biomedical-engineering
+2025-10-26 20:39:47,593 [INFO] [DETAIL] (182/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biomedical-technology-ventures
+2025-10-26 20:40:00,706 [INFO] [DETAIL] (183/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biotechnology
+2025-10-26 20:40:15,251 [INFO] [DETAIL] (184/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biotechnology-language
+2025-10-26 20:40:28,180 [INFO] [DETAIL] (185/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biotechnology-management
+2025-10-26 20:40:40,743 [INFO] [DETAIL] (186/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/biotechnology-msci
+2025-10-26 20:40:54,394 [INFO] [DETAIL] (187/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/chemical-engineering
+2025-10-26 20:41:07,453 [INFO] [DETAIL] (188/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/chemistry-bsc
+2025-10-26 20:41:21,091 [INFO] [DETAIL] (189/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/chemistry-management
+2025-10-26 20:41:34,513 [INFO] [DETAIL] (190/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/chemistry-medicinal
+2025-10-26 20:41:48,254 [INFO] [DETAIL] (191/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/chemistry-molecular-physics
+2025-10-26 20:42:03,344 [INFO] [DETAIL] (192/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/chemistry-msci
+2025-10-26 20:42:16,745 [INFO] [DETAIL] (193/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/civil-engineering
+2025-10-26 20:42:29,695 [INFO] [DETAIL] (194/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-artificial-intelligence-meng
+2025-10-26 20:42:42,884 [INFO] [DETAIL] (195/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-beng
+2025-10-26 20:42:55,788 [INFO] [DETAIL] (196/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-computational-management
+2025-10-26 20:43:08,489 [INFO] [DETAIL] (197/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-international-programme-of-study
+2025-10-26 20:43:21,764 [INFO] [DETAIL] (198/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-meng
+2025-10-26 20:43:34,144 [INFO] [DETAIL] (199/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-security-reliability-meng
+2025-10-26 20:43:47,319 [INFO] [DETAIL] (200/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-software-engineering-meng
+2025-10-26 20:43:59,626 [INFO] [DETAIL] (201/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/computing-visual-computing-robotics-meng
+2025-10-26 20:44:12,209 [INFO] [DETAIL] (202/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/design-engineering
+2025-10-26 20:44:23,727 [INFO] [DETAIL] (203/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/earth-planetary-science-bsc
+2025-10-26 20:44:35,766 [INFO] [DETAIL] (204/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/earth-planetary-science-msci
+2025-10-26 20:44:48,139 [INFO] [DETAIL] (205/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/ecology-environmental-biology
+2025-10-26 20:45:00,492 [INFO] [DETAIL] (206/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/economics-finance-data-science
+2025-10-26 20:45:12,920 [INFO] [DETAIL] (207/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/electrical-electronic-engineering-beng
+2025-10-26 20:45:25,690 [INFO] [DETAIL] (208/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/electrical-electronic-engineering-management
+2025-10-26 20:45:38,776 [INFO] [DETAIL] (209/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/electrical-electronic-engineering-meng
+2025-10-26 20:45:51,799 [INFO] [DETAIL] (210/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/electronic-information-beng
+2025-10-26 20:46:05,629 [INFO] [DETAIL] (211/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/electronic-information-meng
+2025-10-26 20:46:18,162 [INFO] [DETAIL] (212/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/geology-bsc
+2025-10-26 20:46:31,742 [INFO] [DETAIL] (213/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/geology-msci
+2025-10-26 20:46:44,652 [INFO] [DETAIL] (214/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/geophysics-bsc
+2025-10-26 20:46:57,312 [INFO] [DETAIL] (215/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/geophysics-msci
+2025-10-26 20:47:09,681 [INFO] [DETAIL] (216/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/materials-nuclear-engineering
+2025-10-26 20:47:22,338 [INFO] [DETAIL] (217/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/materials-science-engineering-beng
+2025-10-26 20:47:34,837 [INFO] [DETAIL] (218/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/materials-science-engineering-meng
+2025-10-26 20:47:47,049 [INFO] [DETAIL] (219/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-applied-physics
+2025-10-26 20:47:59,666 [INFO] [DETAIL] (220/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-bsc
+2025-10-26 20:48:11,913 [INFO] [DETAIL] (221/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-computation
+2025-10-26 20:48:23,584 [INFO] [DETAIL] (222/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-computer-science-beng
+2025-10-26 20:48:36,747 [INFO] [DETAIL] (223/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-computer-science-meng
+2025-10-26 20:48:50,742 [INFO] [DETAIL] (224/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-msci
+2025-10-26 20:49:03,477 [INFO] [DETAIL] (225/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-statistics
+2025-10-26 20:49:17,193 [INFO] [DETAIL] (226/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mathematics-statistics-finance
+2025-10-26 20:49:30,839 [INFO] [DETAIL] (227/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mechanical-engineering
+2025-10-26 20:49:43,423 [INFO] [DETAIL] (228/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/mechanical-engineering-nuclear
+2025-10-26 20:49:57,029 [INFO] [DETAIL] (229/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/medical-biosciences
+2025-10-26 20:50:09,399 [INFO] [DETAIL] (230/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/medical-biosciences-management
+2025-10-26 20:50:22,832 [INFO] [DETAIL] (231/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/medicine
+2025-10-26 20:50:35,550 [INFO] [DETAIL] (232/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/medicine-graduate-entry
+2025-10-26 20:50:48,371 [INFO] [DETAIL] (233/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/medicine-phd
+2025-10-26 20:51:02,093 [INFO] [DETAIL] (234/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/microbiology
+2025-10-26 20:51:16,474 [INFO] [DETAIL] (235/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/molecular-bioengineering
+2025-10-26 20:51:30,177 [INFO] [DETAIL] (236/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/physics-bsc
+2025-10-26 20:51:44,357 [INFO] [DETAIL] (237/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/physics-msci
+2025-10-26 20:51:57,880 [INFO] [DETAIL] (238/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/physics-theoretical-bsc
+2025-10-26 20:52:11,206 [INFO] [DETAIL] (239/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/physics-theoretical-msci
+2025-10-26 20:52:24,319 [INFO] [DETAIL] (240/240) done https://www.imperial.ac.uk/study/courses/undergraduate/2026/pure-mathematics-bsc
+2025-10-26 20:52:24,320 [INFO] [DONE] saved -> imperial_courses.csv
