@@ -1,0 +1,5 @@
+url=https://www.imperial.ac.uk/study/courses/undergraduate/2026/biological-sciences-msci/
+Traceback (most recent call last):
+  File "D:\Library\homework\BIOE70071\imperial_courses\imperial_courses_keyfacts_crawler_v3log.py", line 290, in fetch
+    with async_timeout.timeout(timeout):
+AttributeError: __enter__
