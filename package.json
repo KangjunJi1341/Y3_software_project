@@ -1,0 +1,13 @@
+{
+  "name": "front-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "vercel-build": ""
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.24.1",
+    "resend": "^4.0.0"
+  }
+}
+
