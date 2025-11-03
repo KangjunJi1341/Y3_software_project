@@ -334,7 +334,7 @@ function assistantRespond(cid, userText) {
     } else {
       const reply = `Demo reply (mock): ${userText.toUpperCase()}`;
       addMessage(cid, 'assistant', reply);
-      // TTS 英文播放（你已设置 englishVoice）
+
       if (window.speechSynthesis) {
         const utter = new SpeechSynthesisUtterance(reply);
         utter.lang = 'en-US';
@@ -450,7 +450,7 @@ if (!SpeechRecognition || !navigator.mediaDevices?.getUserMedia) {
   let lastTranscript = '';
 
   recognition.onresult = (evt) => {
-    // 拿最终转写结果（不再写入输入框）
+
     lastTranscript = Array.from(evt.results).map(r => r[0].transcript).join(' ').trim();
   };
 
@@ -461,22 +461,22 @@ if (!SpeechRecognition || !navigator.mediaDevices?.getUserMedia) {
     // 结束录音并得到音频数据
     const audioDataUrl = await stopMicRecordingToDataUrl();
 
-    // 立即发语音气泡消息（带可重播音频 + 转写文字）
+
     const cid = currentChatId || ensureChat();
     const textToSend = lastTranscript || '(voice)';
     addMessage(cid, 'user', textToSend, audioDataUrl ? { audioDataUrl } : {});
 
-    // 触发助手回复（仍按你原有的 mock）
+
     assistantRespond(cid, textToSend);
 
-    // 清理本次转写
+
     lastTranscript = '';
   };
 
   recognition.onerror = async () => {
     recognizing = false;
     elMic.textContent = '🎤';
-    await stopMicRecordingToDataUrl(); // 保守停止录音
+    await stopMicRecordingToDataUrl();
   };
 
   elMic.addEventListener('click', async () => {
@@ -488,8 +488,8 @@ if (!SpeechRecognition || !navigator.mediaDevices?.getUserMedia) {
     try {
       recognizing = true;
       elMic.textContent = '⏺';
-      await startMicRecording();  // 先开始录音
-      recognition.start();        // 再启动识别
+      await startMicRecording();
+      recognition.start();
     } catch {
       recognizing = false;
       elMic.textContent = '🎤';
