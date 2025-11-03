@@ -168,6 +168,44 @@ if (window.speechSynthesis) {
   window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
 }
 
+
+// audio
+let mediaStream = null;
+let mediaRecorder = null;
+let mediaChunks = [];
+
+async function startMicRecording() {
+  mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(mediaStream);
+  mediaChunks = [];
+  mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) mediaChunks.push(e.data); };
+  mediaRecorder.start();
+}
+
+function stopMicTracks() {
+  try { mediaStream?.getTracks()?.forEach(t => t.stop()); } catch {}
+  mediaStream = null;
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve) => {
+    const fr = new FileReader();
+    fr.onload = () => resolve(fr.result);
+    fr.readAsDataURL(blob);
+  });
+}
+
+async function stopMicRecordingToDataUrl() {
+  if (!mediaRecorder || mediaRecorder.state === 'inactive') return null;
+  await new Promise((resolve) => {
+    mediaRecorder.onstop = resolve;
+    mediaRecorder.stop();
+  });
+  stopMicTracks();
+  const blob = new Blob(mediaChunks, { type: 'audio/webm' }); // 兼容 Chrome
+  return await blobToDataUrl(blob); // data:audio/webm;base64,...
+}
+
   // CHAT PAGE
   function initChatPage() {
     const elUser = document.getElementById('user-label');
@@ -242,18 +280,18 @@ if (window.speechSynthesis) {
       return id;
     }
 
-    function renderMessages(chatId) {
-      const map = getMessagesMap();
-      const msgs = map[chatId] || [];
-      elMessages.innerHTML = '';
-      for (const m of msgs) {
-        const div = document.createElement('div');
-        div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
-        div.textContent = m.text;
-        elMessages.appendChild(div);
-      }
-      elMessages.scrollTop = elMessages.scrollHeight;
-    }
+    // function renderMessages(chatId) {
+    //   const map = getMessagesMap();
+    //   const msgs = map[chatId] || [];
+    //   elMessages.innerHTML = '';
+    //   for (const m of msgs) {
+    //     const div = document.createElement('div');
+    //     div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
+    //     div.textContent = m.text;
+    //     elMessages.appendChild(div);
+    //   }
+    //   elMessages.scrollTop = elMessages.scrollHeight;
+    // }
 
     function openChat(id) {
       currentChatId = id;
@@ -267,49 +305,127 @@ if (window.speechSynthesis) {
       openChat(currentChatId);
     });
 
-    function addMessage(chatId, role, text) {
-      const map = getMessagesMap();
-      const arr = map[chatId] || [];
-      arr.push({ id: uuid(), role, text, createdAt: nowIso() });
-      map[chatId] = arr;
-      setMessagesMap(map);
-      renderMessages(chatId);
-      refreshUsage();
-    }
+    // function addMessage(chatId, role, text) {
+    //   const map = getMessagesMap();
+    //   const arr = map[chatId] || [];
+    //   arr.push({ id: uuid(), role, text, createdAt: nowIso() });
+    //   map[chatId] = arr;
+    //   setMessagesMap(map);
+    //   renderMessages(chatId);
+    //   refreshUsage();
+    // }
 
-    function sendMessage(text) {
-      const trimmed = text.trim();
-      if (!trimmed) return;
-      const used = getDailyUserMessageCount(userEmail);
-      const max = entitlements[userType].maxMessagesPerDay;
-      if (used >= max) {
-        addMessage(currentChatId || ensureChat(), 'error', 'Rate limit reached for your user type.');
-        return;
+   function addMessage(chatId, role, text, extra = {}) {
+  const map = getMessagesMap();
+  const arr = map[chatId] || [];
+  arr.push({ id: uuid(), role, text, createdAt: nowIso(), ...extra }); // 支持 audioDataUrl
+  map[chatId] = arr;
+  setMessagesMap(map);
+  renderMessages(chatId);
+  refreshUsage();
+}
+
+// ask api place
+function assistantRespond(cid, userText) {
+
+  setTimeout(() => {
+    if (Math.random() < 0.2) {
+      addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
+    } else {
+      const reply = `Demo reply (mock): ${userText.toUpperCase()}`;
+      addMessage(cid, 'assistant', reply);
+      // TTS 英文播放（你已设置 englishVoice）
+      if (window.speechSynthesis) {
+        const utter = new SpeechSynthesisUtterance(reply);
+        utter.lang = 'en-US';
+        if (englishVoice) utter.voice = englishVoice;
+        window.speechSynthesis.speak(utter);
       }
-      const cid = currentChatId || ensureChat();
-      addMessage(cid, 'user', trimmed);
-      elInput.value = '';
-      // Mock assistant: sometimes fail, otherwise echo with slight transform
-      setTimeout(() => {
-        if (Math.random() < 0.2) {
-          addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
-        } else {
-          const reply = `Demo reply (mock): ${trimmed.toUpperCase()}`;
-          addMessage(cid, 'assistant', reply);
-          // Optional: speak the reply
-          if (window.speechSynthesis) {
-            const utter = new SpeechSynthesisUtterance(reply);
-            utter.lang = 'en-US';
-            if (englishVoice) utter.voice = englishVoice;
-            window.speechSynthesis.speak(utter);
-
-          }
-
-
-
-        }
-      }, 400);
     }
+  }, 400);
+}
+
+function renderMessages(chatId) {
+  const map = getMessagesMap();
+  const msgs = map[chatId] || [];
+  elMessages.innerHTML = '';
+  for (const m of msgs) {
+    const div = document.createElement('div');
+    // voice 消息沿用用户 or 助手样式，这里仍按 role 渲染
+    div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
+
+    if (m.audioDataUrl) {
+
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.src = m.audioDataUrl;
+      audio.style.display = 'block';
+      audio.style.marginBottom = '6px';
+
+      const caption = document.createElement('div');
+      caption.className = 'muted';
+      caption.textContent = m.text || '(no transcript)';
+
+      div.appendChild(audio);
+      div.appendChild(caption);
+    } else {
+
+      div.textContent = m.text;
+    }
+
+    elMessages.appendChild(div);
+  }
+  elMessages.scrollTop = elMessages.scrollHeight;
+}
+
+    // function sendMessage(text) {
+    //   const trimmed = text.trim();
+    //   if (!trimmed) return;
+    //   const used = getDailyUserMessageCount(userEmail);
+    //   const max = entitlements[userType].maxMessagesPerDay;
+    //   if (used >= max) {
+    //     addMessage(currentChatId || ensureChat(), 'error', 'Rate limit reached for your user type.');
+    //     return;
+    //   }
+    //   const cid = currentChatId || ensureChat();
+    //   addMessage(cid, 'user', trimmed);
+    //   elInput.value = '';
+    //   // Mock assistant: sometimes fail, otherwise echo with slight transform
+    //   setTimeout(() => {
+    //     if (Math.random() < 0.2) {
+    //       addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
+    //     } else {
+    //       const reply = `Demo reply (mock): ${trimmed.toUpperCase()}`;
+    //       addMessage(cid, 'assistant', reply);
+    //       // Optional: speak the reply
+    //       if (window.speechSynthesis) {
+    //         const utter = new SpeechSynthesisUtterance(reply);
+    //         utter.lang = 'en-US';
+    //         if (englishVoice) utter.voice = englishVoice;
+    //         window.speechSynthesis.speak(utter);
+    //
+    //       }
+    //
+    //
+    //
+    //     }
+    //   }, 400);
+    // }
+
+function sendMessage(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return;
+  const used = getDailyUserMessageCount(userEmail);
+  const max = entitlements[userType].maxMessagesPerDay;
+  if (used >= max) {
+    addMessage(currentChatId || ensureChat(), 'error', 'Rate limit reached for your user type.');
+    return;
+  }
+  const cid = currentChatId || ensureChat();
+  addMessage(cid, 'user', trimmed);
+  elInput.value = '';
+  assistantRespond(cid, trimmed);
+}
 
     elSend.addEventListener('click', () => sendMessage(elInput.value));
     elInput.addEventListener('keydown', (e) => {
@@ -317,29 +433,70 @@ if (window.speechSynthesis) {
     });
 
     // Voice input via Web Speech API
-    let recognizing = false;
-    let recognition = null;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      elMic.disabled = true;
-      elMic.title = 'Voice not supported by this browser.';
-    } else {
-      recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.onresult = (evt) => {
-        const transcript = Array.from(evt.results).map(r => r[0].transcript).join(' ');
-        elInput.value = (elInput.value + ' ' + transcript).trim();
-      };
-      recognition.onend = () => { recognizing = false; elMic.textContent = '🎤'; };
-      recognition.onerror = () => { recognizing = false; elMic.textContent = '🎤'; };
-      elMic.addEventListener('click', () => {
-        if (!recognition) return;
-        if (recognizing) { recognition.stop(); return; }
-        try { recognizing = true; elMic.textContent = '⏺'; recognition.start(); } catch {}
-      });
+ // Voice input via Web Speech API + MediaRecorder
+let recognizing = false;
+let recognition = null;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition || !navigator.mediaDevices?.getUserMedia) {
+  elMic.disabled = true;
+  elMic.title = 'Voice not supported by this browser.';
+} else {
+  recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  let lastTranscript = '';
+
+  recognition.onresult = (evt) => {
+    // 拿最终转写结果（不再写入输入框）
+    lastTranscript = Array.from(evt.results).map(r => r[0].transcript).join(' ').trim();
+  };
+
+  recognition.onend = async () => {
+    recognizing = false;
+    elMic.textContent = '🎤';
+
+    // 结束录音并得到音频数据
+    const audioDataUrl = await stopMicRecordingToDataUrl();
+
+    // 立即发语音气泡消息（带可重播音频 + 转写文字）
+    const cid = currentChatId || ensureChat();
+    const textToSend = lastTranscript || '(voice)';
+    addMessage(cid, 'user', textToSend, audioDataUrl ? { audioDataUrl } : {});
+
+    // 触发助手回复（仍按你原有的 mock）
+    assistantRespond(cid, textToSend);
+
+    // 清理本次转写
+    lastTranscript = '';
+  };
+
+  recognition.onerror = async () => {
+    recognizing = false;
+    elMic.textContent = '🎤';
+    await stopMicRecordingToDataUrl(); // 保守停止录音
+  };
+
+  elMic.addEventListener('click', async () => {
+    if (!recognition) return;
+    if (recognizing) {
+      recognition.stop();
+      return;
     }
+    try {
+      recognizing = true;
+      elMic.textContent = '⏺';
+      await startMicRecording();  // 先开始录音
+      recognition.start();        // 再启动识别
+    } catch {
+      recognizing = false;
+      elMic.textContent = '🎤';
+    }
+  });
+}
+
 
     // Bootstrap: open the latest chat for this user
     const existing = getChats().filter(c => c.userEmail === userEmail)
