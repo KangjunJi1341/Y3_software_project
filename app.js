@@ -93,7 +93,7 @@
       // Try to send a real confirmation email via API (Resend)
       (async () => {
         try {
-          const confirmLink = `${location.origin}${location.pathname.replace(/\\/[^/]*$/, '/') }confirm.html?token=${encodeURIComponent(verifyToken)}`;
+          const confirmLink = `${location.origin}${location.pathname.replace(/\/[^/]*$/, '/') }confirm.html?token=${encodeURIComponent(verifyToken)}`;
           await fetch('/api/email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -107,7 +107,7 @@
         try {
           const u = (getUsers() || []).find(x => x.email === email);
           if (!u || !u.resetToken) return;
-          const resetLink = `${location.origin}${location.pathname.replace(/\\/[^/]*$/, '/') }reset.html?token=${encodeURIComponent(u.resetToken)}`;
+          const resetLink = `${location.origin}${location.pathname.replace(/\/[^/]*$/, '/') }reset.html?token=${encodeURIComponent(u.resetToken)}`;
           await fetch('/api/email', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ to: email, subject: 'Reset your password', html: `<p>Reset password: <a href=\"${resetLink}\">${resetLink}</a></p>` })
@@ -137,7 +137,7 @@
         // Re-send real email if API is configured
         (async () => {
           try {
-            const confirmLink = `${location.origin}${location.pathname.replace(/\\/[^/]*$/, '/') }confirm.html?token=${encodeURIComponent(newToken)}`;
+            const confirmLink = `${location.origin}${location.pathname.replace(/\/[^/]*$/, '/') }confirm.html?token=${encodeURIComponent(newToken)}`;
             await fetch('/api/email', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ to: email, subject: 'Confirm your account', html: `<p>Click to confirm: <a href=\"${confirmLink}\">${confirmLink}</a></p>` })
@@ -153,6 +153,78 @@
     });
   }
 
+ // language set
+let englishVoice = null;
+
+function loadVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  englishVoice = voices.find(v => /^en(-|_|$)/i.test(v.lang)) || null;
+}
+
+
+if (window.speechSynthesis) {
+  loadVoices();
+
+  window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+}
+
+// api ask place
+function assistantRespond(cid, userText) {
+  // Mock assistant: 保持你原来的模拟逻辑
+  setTimeout(() => {
+    if (Math.random() < 0.2) {
+      addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
+    } else {
+      const reply = `Demo reply (mock): ${userText.toUpperCase()}`;
+      addMessage(cid, 'assistant', reply);
+      // TTS 英文播放（你已设置 englishVoice）
+      if (window.speechSynthesis) {
+        const utter = new SpeechSynthesisUtterance(reply);
+        utter.lang = 'en-US';
+        if (englishVoice) utter.voice = englishVoice;
+        window.speechSynthesis.speak(utter);
+      }
+    }
+  }, 400);
+}
+
+
+//audio set
+let mediaStream = null;
+let mediaRecorder = null;
+let mediaChunks = [];
+
+async function startMicRecording() {
+  mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(mediaStream);
+  mediaChunks = [];
+  mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) mediaChunks.push(e.data); };
+  mediaRecorder.start();
+}
+
+function stopMicTracks() {
+  try { mediaStream?.getTracks()?.forEach(t => t.stop()); } catch {}
+  mediaStream = null;
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve) => {
+    const fr = new FileReader();
+    fr.onload = () => resolve(fr.result);
+    fr.readAsDataURL(blob);
+  });
+}
+
+async function stopMicRecordingToDataUrl() {
+  if (!mediaRecorder || mediaRecorder.state === 'inactive') return null;
+  await new Promise((resolve) => {
+    mediaRecorder.onstop = resolve;
+    mediaRecorder.stop();
+  });
+  stopMicTracks();
+  const blob = new Blob(mediaChunks, { type: 'audio/webm' }); // 兼容 Chrome
+  return await blobToDataUrl(blob); // data:audio/webm;base64,...
+}
   // CHAT PAGE
   function initChatPage() {
     const elUser = document.getElementById('user-label');
@@ -227,18 +299,18 @@
       return id;
     }
 
-    function renderMessages(chatId) {
-      const map = getMessagesMap();
-      const msgs = map[chatId] || [];
-      elMessages.innerHTML = '';
-      for (const m of msgs) {
-        const div = document.createElement('div');
-        div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
-        div.textContent = m.text;
-        elMessages.appendChild(div);
-      }
-      elMessages.scrollTop = elMessages.scrollHeight;
-    }
+    // function renderMessages(chatId) {
+    //   const map = getMessagesMap();
+    //   const msgs = map[chatId] || [];
+    //   elMessages.innerHTML = '';
+    //   for (const m of msgs) {
+    //     const div = document.createElement('div');
+    //     div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
+    //     div.textContent = m.text;
+    //     elMessages.appendChild(div);
+    //   }
+    //   elMessages.scrollTop = elMessages.scrollHeight;
+    // }
 
     function openChat(id) {
       currentChatId = id;
@@ -252,43 +324,197 @@
       openChat(currentChatId);
     });
 
-    function addMessage(chatId, role, text) {
-      const map = getMessagesMap();
-      const arr = map[chatId] || [];
-      arr.push({ id: uuid(), role, text, createdAt: nowIso() });
-      map[chatId] = arr;
-      setMessagesMap(map);
-      renderMessages(chatId);
-      refreshUsage();
+    // function addMessage(chatId, role, text) {
+    //   const map = getMessagesMap();
+    //   const arr = map[chatId] || [];
+    //   arr.push({ id: uuid(), role, text, createdAt: nowIso() });
+    //   map[chatId] = arr;
+    //   setMessagesMap(map);
+    //   renderMessages(chatId);
+    //   refreshUsage();
+    // }
+    function addMessage(chatId, role, text, extra = {}) {
+        const map = getMessagesMap();
+
+    const arr = map[chatId] || [];
+    arr.push({ id: uuid(), role, text, createdAt: nowIso(), ...extra }); // 支持 audioDataUrl
+    map[chatId] = arr;
+    setMessagesMap(map);
+    renderMessages(chatId);
+    refreshUsage();
     }
 
-    function sendMessage(text) {
-      const trimmed = text.trim();
-      if (!trimmed) return;
-      const used = getDailyUserMessageCount(userEmail);
-      const max = entitlements[userType].maxMessagesPerDay;
-      if (used >= max) {
-        addMessage(currentChatId || ensureChat(), 'error', 'Rate limit reached for your user type.');
-        return;
-      }
-      const cid = currentChatId || ensureChat();
-      addMessage(cid, 'user', trimmed);
-      elInput.value = '';
-      // Mock assistant: sometimes fail, otherwise echo with slight transform
-      setTimeout(() => {
-        if (Math.random() < 0.2) {
-          addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
-        } else {
-          const reply = `Demo reply (mock): ${trimmed.toUpperCase()}`;
-          addMessage(cid, 'assistant', reply);
-          // Optional: speak the reply
-          if (window.speechSynthesis) {
-            const utter = new SpeechSynthesisUtterance(reply);
-            window.speechSynthesis.speak(utter);
-          }
-        }
-      }, 400);
+function renderMessages(chatId) {
+  const map = getMessagesMap();
+  const msgs = map[chatId] || [];
+  elMessages.innerHTML = '';
+  for (const m of msgs) {
+    const div = document.createElement('div');
+    // voice 消息沿用用户 or 助手样式，这里仍按 role 渲染
+    div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
+
+    if (m.audioDataUrl) {
+      // 语音气泡：播放器 + 转写文本
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.src = m.audioDataUrl;
+      audio.style.display = 'block';
+      audio.style.marginBottom = '6px';
+
+      const caption = document.createElement('div');
+      caption.className = 'muted';
+      caption.textContent = m.text || '(no transcript)';
+
+      div.appendChild(audio);
+      div.appendChild(caption);
+    } else {
+      // 普通文本气泡
+      div.textContent = m.text;
     }
+
+    elMessages.appendChild(div);
+  }
+  elMessages.scrollTop = elMessages.scrollHeight;
+}
+function renderMessages(chatId) {
+  const map = getMessagesMap();
+  const msgs = map[chatId] || [];
+  elMessages.innerHTML = '';
+
+  const fmt = s => {
+    s = Math.floor(s || 0);
+    const m = Math.floor(s / 60), sec = s % 60;
+    return `${m}:${String(sec).padStart(2, '0')}`;
+  };
+
+  for (const m of msgs) {
+    const div = document.createElement('div');
+    div.className = 'bubble ' + (m.role === 'user' ? 'user' : (m.role === 'error' ? 'error' : 'assistant'));
+
+    if (m.audioDataUrl) {
+      // --- 自定义音频播放器 ---
+      const audio = new Audio(m.audioDataUrl);   // 不用原生 controls
+      audio.preload = 'metadata';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'audio-player';
+
+      const btn = document.createElement('button');
+      btn.className = 'audio-btn';
+      btn.type = 'button';
+      btn.title = 'Play / Pause';
+      btn.textContent = '►';
+
+      const seek = document.createElement('input');
+      seek.type = 'range';
+      seek.className = 'audio-seek';
+      seek.min = 0; seek.max = 100; seek.value = 0;
+
+      const time = document.createElement('span');
+      time.className = 'audio-time';
+      time.textContent = '0:00 / 0:00';
+
+
+      audio.addEventListener('loadedmetadata', () => {
+        time.textContent = `0:00 / ${fmt(audio.duration)}`;
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const p = (audio.currentTime / (audio.duration || 1)) * 100;
+        seek.value = String(p);
+        time.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      });
+
+      audio.addEventListener('ended', () => {
+        btn.textContent = '►';
+        btn.classList.remove('pause');
+        seek.value = '0';
+      });
+
+      btn.addEventListener('click', () => {
+        if (audio.paused) { audio.play(); btn.textContent = '❚❚'; btn.classList.add('pause'); }
+        else { audio.pause(); btn.textContent = '►'; btn.classList.remove('pause'); }
+      });
+
+      seek.addEventListener('input', () => {
+        const p = Number(seek.value) / 100;
+        audio.currentTime = (audio.duration || 0) * p;
+      });
+
+
+      wrap.appendChild(btn);
+      wrap.appendChild(seek);
+      wrap.appendChild(time);
+      div.appendChild(wrap);
+
+
+      const caption = document.createElement('div');
+      caption.className = 'muted';
+      caption.textContent = m.text || '(no transcript)';
+      div.appendChild(caption);
+
+    } else {
+
+      div.textContent = m.text;
+    }
+
+    elMessages.appendChild(div);
+  }
+  elMessages.scrollTop = elMessages.scrollHeight;
+}
+
+
+    // function sendMessage(text) {
+    //   const trimmed = text.trim();
+    //   if (!trimmed) return;
+    //   const used = getDailyUserMessageCount(userEmail);
+    //   const max = entitlements[userType].maxMessagesPerDay;
+    //   if (used >= max) {
+    //     addMessage(currentChatId || ensureChat(), 'error', 'Rate limit reached for your user type.');
+    //     return;
+    //   }
+    //   const cid = currentChatId || ensureChat();
+    //   addMessage(cid, 'user', trimmed);
+    //   elInput.value = '';
+    //   // Mock assistant: sometimes fail, otherwise echo with slight transform
+    //   setTimeout(() => {
+    //     if (Math.random() < 0.2) {
+    //       addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
+    //     } else {
+    //       const reply = `Demo reply (mock): ${trimmed.toUpperCase()}`;
+    //       addMessage(cid, 'assistant', reply);
+    //       // Optional: speak the reply
+    //       if (window.speechSynthesis) {
+    //         const utter = new SpeechSynthesisUtterance(reply);
+    //         utter.lang = 'en-US';
+    //         if (englishVoice) utter.voice = englishVoice;
+    //         window.speechSynthesis.speak(utter);
+    //
+    //       }
+    //
+    //
+    //
+    //     }
+    //   }, 400);
+    // }
+
+
+    function sendMessage(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return;
+  const used = getDailyUserMessageCount(userEmail);
+  const max = entitlements[userType].maxMessagesPerDay;
+  if (used >= max) {
+    addMessage(currentChatId || ensureChat(), 'error', 'Rate limit reached for your user type.');
+    return;
+  }
+  const cid = currentChatId || ensureChat();
+  addMessage(cid, 'user', trimmed);
+  elInput.value = '';
+  assistantRespond(cid, trimmed);
+}
+
+
 
     elSend.addEventListener('click', () => sendMessage(elInput.value));
     elInput.addEventListener('keydown', (e) => {
@@ -296,29 +522,94 @@
     });
 
     // Voice input via Web Speech API
-    let recognizing = false;
-    let recognition = null;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      elMic.disabled = true;
-      elMic.title = 'Voice not supported by this browser.';
-    } else {
-      recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.onresult = (evt) => {
-        const transcript = Array.from(evt.results).map(r => r[0].transcript).join(' ');
-        elInput.value = (elInput.value + ' ' + transcript).trim();
-      };
-      recognition.onend = () => { recognizing = false; elMic.textContent = '🎤'; };
-      recognition.onerror = () => { recognizing = false; elMic.textContent = '🎤'; };
-      elMic.addEventListener('click', () => {
-        if (!recognition) return;
-        if (recognizing) { recognition.stop(); return; }
-        try { recognizing = true; elMic.textContent = '⏺'; recognition.start(); } catch {}
-      });
+
+      // Voice input via Web Speech API + MediaRecorder
+let recognizing = false;
+let recognition = null;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition || !navigator.mediaDevices?.getUserMedia) {
+  elMic.disabled = true;
+  elMic.title = 'Voice not supported by this browser.';
+} else {
+  recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  let lastTranscript = '';
+
+  recognition.onresult = (evt) => {
+
+    lastTranscript = Array.from(evt.results).map(r => r[0].transcript).join(' ').trim();
+  };
+
+  recognition.onend = async () => {
+    recognizing = false;
+    elMic.textContent = '🎤';
+
+
+    const audioDataUrl = await stopMicRecordingToDataUrl();
+
+
+    const cid = currentChatId || ensureChat();
+    const textToSend = lastTranscript || '(voice)';
+    addMessage(cid, 'user', textToSend, audioDataUrl ? { audioDataUrl } : {});
+
+
+    assistantRespond(cid, textToSend);
+
+
+    lastTranscript = '';
+  };
+
+  recognition.onerror = async () => {
+    recognizing = false;
+    elMic.textContent = '🎤';
+    await stopMicRecordingToDataUrl();
+  };
+
+  elMic.addEventListener('click', async () => {
+    if (!recognition) return;
+    if (recognizing) {
+      recognition.stop();
+      return;
     }
+    try {
+      recognizing = true;
+      elMic.textContent = '⏺';
+      await startMicRecording();
+      recognition.start();
+    } catch {
+      recognizing = false;
+      elMic.textContent = '🎤';
+    }
+  });
+}
+
+    // let recognizing = false;
+    // let recognition = null;
+    // const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    // if (!SpeechRecognition) {
+    //   elMic.disabled = true;
+    //   elMic.title = 'Voice not supported by this browser.';
+    // } else {
+    //   recognition = new SpeechRecognition();
+    //   recognition.lang = 'en-US';
+    //   recognition.continuous = false;
+    //   recognition.interimResults = false;
+    //   recognition.onresult = (evt) => {
+    //     const transcript = Array.from(evt.results).map(r => r[0].transcript).join(' ');
+    //     elInput.value = (elInput.value + ' ' + transcript).trim();
+    //   };
+    //   recognition.onend = () => { recognizing = false; elMic.textContent = '🎤'; };
+    //   recognition.onerror = () => { recognizing = false; elMic.textContent = '🎤'; };
+    //   elMic.addEventListener('click', () => {
+    //     if (!recognition) return;
+    //     if (recognizing) { recognition.stop(); return; }
+    //     try { recognizing = true; elMic.textContent = '⏺'; recognition.start(); } catch {}
+    //   });
+    // }
 
     // Bootstrap: open the latest chat for this user
     const existing = getChats().filter(c => c.userEmail === userEmail)
