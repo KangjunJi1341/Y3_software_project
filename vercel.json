@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/register", "destination": "/register.html" },
+    { "source": "/forgot", "destination": "/forgot.html" },
+    { "source": "/reset", "destination": "/reset.html" },
+    { "source": "/confirm", "destination": "/confirm.html" }
+  ]
+}
+
