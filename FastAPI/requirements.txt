@@ -2,3 +2,6 @@ fastapi
 uvicorn
 openai
 supabase
+numpy
+faiss-cpu
+sentence-transformers
