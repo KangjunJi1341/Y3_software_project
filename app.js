@@ -156,10 +156,78 @@
 
 let englishVoice = null;
 
-function loadVoices() {
-  const voices = window.speechSynthesis.getVoices();
-  englishVoice = voices.find(v => /^en(-|_|$)/i.test(v.lang)) || null;
-}
+    //  本地 ASR 模块
+    let asrPipeline = null;
+    let asrReady = false;
+    
+    // 初始化本地 Whisper 模型
+    async function initLocalASR() {
+      if (asrPipeline || asrReady) return;
+      
+      console.log(' 开始加载本地 Whisper 模型（从 CDN）...');
+      
+      try {
+        // ✅ 使用 CDN 版本，不需要构建工具
+        const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js');
+        
+        // 加载 Whisper Tiny 模型（约 75MB，首次需要下载）
+        asrPipeline = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny');
+        asrReady = true;
+        
+        console.log('✅ 本地 Whisper 模型加载完成！');
+        
+        return true;
+      } catch (error) {
+        console.error('❌ ASR 模型加载失败:', error);
+        return false;
+      }
+    }
+    
+    // 使用本地 ASR 转录音频
+    async function transcribeWithLocalASR(audioBlob) {
+      if (!asrReady || !asrPipeline) {
+        console.warn('⚠️ 本地 ASR 未就绪');
+        return null;
+      }
+      
+      try {
+        console.log(' 开始本地转录，音频大小:', (audioBlob.size / 1024).toFixed(2), 'KB');
+        
+        // 1. 转换为 ArrayBuffer
+        const arrayBuffer = await audioBlob.arrayBuffer();
+        
+        // 2. 使用 Web Audio API 解码音频
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)({
+          sampleRate: 16000 // Whisper 推荐采样率
+        });
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        
+        // 3. 提取单声道音频数据
+        const audioData = audioBuffer.getChannelData(0);
+        
+        console.log(' 音频数据准备完成，长度:', audioData.length, '样本');
+        console.log(' 开始 Whisper 识别...');
+        
+        // 4. 调用 Whisper 模型转录
+        const result = await asrPipeline(audioData, {
+          // ✅ 不指定 language，让 Whisper 自动检测
+          task: 'transcribe',
+          return_timestamps: false
+        });
+        
+        console.log('✅ 转录完成:', result.text);
+        return result.text?.trim() || null;
+        
+      } catch (error) {
+        console.error('❌ 本地转录失败:', error);
+        return null;
+      }
+    }
+
+    function loadVoices() {
+      const voices = window.speechSynthesis.getVoices();
+      englishVoice = voices.find(v => /^en(-|_|$)/i.test(v.lang)) || null;
+    }
 
 
 if (window.speechSynthesis) {
@@ -219,6 +287,15 @@ async function stopMicRecordingToDataUrl() {
     const elMic = document.getElementById('mic');
 
     if (!elMessages) return; // Not the chat page
+
+    //  初始化本地 ASR（后台异步加载）
+    console.log(' 页面加载，开始初始化本地 ASR...');
+    initLocalASR().then(success => {
+      if (success && elMic) {
+        elMic.title = ' 使用本地 Whisper 模型进行语音识别';
+        console.log(' 麦克风已就绪，可以开始录音');
+      }
+    });
 
     // State
     let currentChatId = null;
@@ -360,11 +437,26 @@ function renderMessages(chatId) {
       audio.controls = true;
       audio.src = m.audioDataUrl;
       audio.style.display = 'block';
-      audio.style.marginBottom = '6px';
+      audio.style.marginBottom = '8px';
 
       const caption = document.createElement('div');
-      caption.className = 'muted';
-      caption.textContent = m.text || '(no transcript)';
+      caption.style.fontSize = '12px';
+      caption.style.color = '#666';
+      caption.style.fontStyle = 'italic';
+      caption.style.marginTop = '4px';
+      caption.style.padding = '4px 8px';
+      caption.style.background = 'rgba(0,0,0,0.05)';
+      caption.style.borderRadius = '4px';
+      
+      //  显示识别方式标记
+      let methodBadge = '';
+      if (m.asrMethod === 'whisper-local') {
+        methodBadge = '<span style="color: #28a745; font-weight: bold;"> ASR result</span>';
+      } else if (m.asrMethod === 'browser-api') {
+        methodBadge = '<span style="color: #007bff;"> 浏览器 API</span>';
+      }
+      
+      caption.innerHTML = `${methodBadge}: ${m.text || '(no transcript)'}`;
 
       div.appendChild(audio);
       div.appendChild(caption);
@@ -433,69 +525,73 @@ function sendMessage(text) {
     });
 
     // Voice input via Web Speech API
- // Voice input via Web Speech API + MediaRecorder
-let recognizing = false;
-let recognition = null;
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        //  纯本地语音识别（不使用 Google API）
+    let recognizing = false;
 
-if (!SpeechRecognition || !navigator.mediaDevices?.getUserMedia) {
-  elMic.disabled = true;
-  elMic.title = 'Voice not supported by this browser.';
-} else {
-  recognition = new SpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.continuous = false;
-  recognition.interimResults = false;
-
-  let lastTranscript = '';
-
-  recognition.onresult = (evt) => {
-
-    lastTranscript = Array.from(evt.results).map(r => r[0].transcript).join(' ').trim();
-  };
-
-  recognition.onend = async () => {
-    recognizing = false;
-    elMic.textContent = '🎤';
-
-    // 结束录音并得到音频数据
-    const audioDataUrl = await stopMicRecordingToDataUrl();
-
-
-    const cid = currentChatId || ensureChat();
-    const textToSend = lastTranscript || '(voice)';
-    addMessage(cid, 'user', textToSend, audioDataUrl ? { audioDataUrl } : {});
-
-
-    assistantRespond(cid, textToSend);
-
-
-    lastTranscript = '';
-  };
-
-  recognition.onerror = async () => {
-    recognizing = false;
-    elMic.textContent = '🎤';
-    await stopMicRecordingToDataUrl();
-  };
-
-  elMic.addEventListener('click', async () => {
-    if (!recognition) return;
-    if (recognizing) {
-      recognition.stop();
-      return;
+    // 检查是否支持录音
+    if (!navigator.mediaDevices?.getUserMedia) {
+      elMic.disabled = true;
+      elMic.title = '浏览器不支持录音功能';
+    } else {
+      elMic.title = ' 点击录音（使用本地 Whisper 识别）';
+      
+      elMic.addEventListener('click', async () => {
+        if (recognizing) {
+          // 停止录音
+          recognizing = false;
+          elMic.textContent = '🎤';
+          
+          console.log(' 停止录音，开始处理...');
+          
+          // 获取录音数据
+          const audioDataUrl = await stopMicRecordingToDataUrl();
+          
+          if (mediaChunks.length === 0) {
+            console.warn('⚠️ 没有录音数据');
+            return;
+          }
+          
+          const audioBlob = new Blob(mediaChunks, { type: 'audio/webm' });
+          console.log(' 录音大小:', (audioBlob.size / 1024).toFixed(2), 'KB');
+          
+          //  使用本地 Whisper 识别
+          console.log(' 开始本地 Whisper 识别...');
+          const transcriptText = await transcribeWithLocalASR(audioBlob);
+          
+          if (!transcriptText || transcriptText.length === 0) {
+            console.error('❌ 识别失败');
+            alert('语音识别失败，请重试');
+            return;
+          }
+          
+          console.log('✅ 识别成功:', transcriptText);
+          
+          // 保存消息
+          const cid = currentChatId || ensureChat();
+          addMessage(cid, 'user', transcriptText, { 
+            audioDataUrl,
+            asrMethod: 'whisper-local'
+          });
+          
+          // 触发助手回复
+          assistantRespond(cid, transcriptText);
+          
+        } else {
+          // 开始录音
+          try {
+            recognizing = true;
+            elMic.textContent = '⏺';
+            console.log(' 开始录音...');
+            await startMicRecording();
+          } catch (error) {
+            console.error('❌ 录音失败:', error);
+            recognizing = false;
+            elMic.textContent = '🎤';
+            alert('无法访问麦克风，请检查权限设置');
+          }
+        }
+      });
     }
-    try {
-      recognizing = true;
-      elMic.textContent = '⏺';
-      await startMicRecording();
-      recognition.start();
-    } catch {
-      recognizing = false;
-      elMic.textContent = '🎤';
-    }
-  });
-}
 
 
     // Bootstrap: open the latest chat for this user
