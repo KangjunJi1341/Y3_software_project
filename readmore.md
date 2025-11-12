@@ -39,3 +39,7 @@ Data Format
 Notes
 - Email delivery is simulated. Confirmation and reset links are presented on-screen for demo purposes.
 - All data is stored in localStorage. Clear it to reset this demo.
+
+2025/11/12 Kangjun
+Update:
+- update login.html, register.html, forgot.html

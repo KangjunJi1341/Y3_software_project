@@ -5,6 +5,45 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Front Test – Forgot Password</title>
     <link rel="stylesheet" href="styles.css" />
+        <style>
+      .email, .password {
+        transition: all 0.3s ease;
+      }
+      .email:hover, .password:hover {
+        transform: translateY(-2px);
+        border-color: rgb(229, 243, 248);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, .15);
+        animation: bounce 0.6s ease-in-out;
+      }
+      .email:focus, .password:focus {
+        transform: translateY(-2px);
+      }
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+      }
+      .btn {
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+      .btn:not(.primary) {
+        background: #000000;
+        border-color: #333333;
+        color: #ffffff;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, .3);
+        animation: bounce 0.6s ease-in-out;
+      }
+      .btn:not(.primary):hover {
+        background: #1a1a1a;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .7);
+      }
+      .btn.primary:hover {
+        box-shadow: 0 6px 20px rgba(59, 130, 246, .4);
+      }
+    </style>
   </head>
   <body>
     <div class="auth-card">

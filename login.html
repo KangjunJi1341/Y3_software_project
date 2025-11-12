@@ -59,14 +59,28 @@
       outline: none;
       font-size: 14px;
       color: var(--text);
+      transition: all 0.3s ease;
     }
     input::placeholder {
       color: rgba(148, 163, 184, .6);
+    }
+    input:hover {
+      transform: translateY(-2px);
+      border-color: rgba(241, 241, 241, 0.4);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, .15);
     }
     input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
       background: #0f172a;
+      transform: translateY(-2px);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    input:hover {
+      animation: bounce 0.6s ease-in-out;
     }
     .btn {
       width: 100%;
@@ -79,6 +93,12 @@
       cursor: pointer;
       margin-top: 4px;
       transition: transform .05s ease-out;
+    }
+    .btn:hover {
+      background: #2563eb;
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(59, 130, 246, .3); 
+      animation: bounce 0.6s ease-in-out;  
     }
     .btn:active {
       transform: translateY(1px);
