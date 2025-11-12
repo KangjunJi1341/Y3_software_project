@@ -1,47 +1,51 @@
-// Persist simple JSON key/value data to Vercel Blob
+// Persist simple JSON key/value data to Firebase Firestore (Admin SDK)
 // Keys are constrained to a fixed set for safety.
-import { put, list } from "@vercel/blob";
+import admin from "firebase-admin";
 
-const KEY_FILE_MAP = {
-  ft_users: "data/users.json",
-  ft_chats: "data/chats.json",
-  ft_messages: "data/messages.json"
-  // Note: current user is intentionally client-only
-};
+const VALID_KEYS = new Set(["ft_users", "ft_chats", "ft_messages"]);
 
-async function readBlobJSON(pathname) {
-  const { blobs } = await list({ prefix: pathname });
-  const entry = blobs.find((b) => b.pathname === pathname);
-  if (!entry) return null;
-  const res = await fetch(entry.url);
-  if (!res.ok) return null;
-  return await res.json();
+function ensureAdmin() {
+  if (admin.apps.length) return admin.firestore();
+  const svc = process.env.FIREBASE_SERVICE_ACCOUNT;
+  if (!svc) {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT is not set");
+  }
+  let creds;
+  try {
+    creds = JSON.parse(svc);
+  } catch {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT is not valid JSON");
+  }
+  admin.initializeApp({ credential: admin.credential.cert(creds) });
+  return admin.firestore();
 }
 
-async function writeBlobJSON(pathname, value) {
-  const body = JSON.stringify(value ?? null, null, 2);
-  await put(pathname, body, {
-    access: "public",
-    addRandomSuffix: false,
-    contentType: "application/json"
-  });
+async function readKV(db, key) {
+  const snap = await db.collection("kv").doc(key).get();
+  if (!snap.exists) return null;
+  const data = snap.data() || {};
+  return Object.prototype.hasOwnProperty.call(data, "value") ? data.value : null;
+}
+
+async function writeKV(db, key, value) {
+  await db.collection("kv").doc(key).set({ value }, { merge: false });
 }
 
 export default async function handler(req, res) {
   try {
+    const db = ensureAdmin();
+
     if (req.method === "GET") {
       const { key } = req.query;
-      const pathname = KEY_FILE_MAP[key];
-      if (!pathname) return res.status(400).json({ error: "invalid_key" });
-      const data = await readBlobJSON(pathname);
-      return res.status(200).json({ key, value: data ?? null });
+      if (!VALID_KEYS.has(key)) return res.status(400).json({ error: "invalid_key" });
+      const value = await readKV(db, key);
+      return res.status(200).json({ key, value: value ?? null });
     }
 
     if (req.method === "POST") {
       const { key, value } = req.body || {};
-      const pathname = KEY_FILE_MAP[key];
-      if (!pathname) return res.status(400).json({ error: "invalid_key" });
-      await writeBlobJSON(pathname, value);
+      if (!VALID_KEYS.has(key)) return res.status(400).json({ error: "invalid_key" });
+      await writeKV(db, key, value);
       return res.status(200).json({ ok: true });
     }
 
