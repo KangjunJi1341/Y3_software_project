@@ -19,8 +19,15 @@ Modification History
   - Forgot password: sends reset email via `/api/email` after issuing token.
 
 Environment (Vercel)
-- Blob storage: attach a Vercel Blob store to the project (no keys needed on Vercel). For local dev, set a `BLOB_READ_WRITE_TOKEN` if using the REST API; not required here when deployed on Vercel.
 - Email: set `RESEND_API_KEY` (and optional `EMAIL_FROM`, default `noreply@example.com`). If not set, emails are simulated and links are shown in the UI.
+
+Firestore Backend (replaces Blob)
+- Serverless API `api/storage.js` now uses Firebase Admin to read/write Firestore.
+- Required env var on Vercel Project:
+  - `FIREBASE_SERVICE_ACCOUNT`: the full JSON of a Firebase service account (paste as a single line JSON string).
+- Data layout in Firestore:
+  - Collection `kv`, docs: `ft_users`, `ft_chats`, `ft_messages`; each doc shape: `{ value: <JSON> }`.
+- Frontend remains unchanged; it calls `/api/storage` which proxies to Firestore.
 
 Data Format
 - Blob paths:
