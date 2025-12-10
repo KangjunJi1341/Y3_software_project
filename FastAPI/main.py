@@ -104,6 +104,7 @@ app.add_middleware(CORSMiddleware,
         response_description = "Return HTTP 200 (OK)",
         status_code = status.HTTP_200_OK,
         response_model = HealthCheck)
+
 def health(request: Request):
     ok = hasattr(request.app.state, "svc")
     return {"ok": ok, "model": request.app.state.config["model_name"]}
