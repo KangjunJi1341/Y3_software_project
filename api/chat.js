@@ -8,16 +8,14 @@ const client = new OpenAI({
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
-        res.status(405).json({ error: "Method not allowed" });
-        return;
+        return res.status(405).json({ error: "Method not allowed" });
     }
 
     try {
-        let { userText } = req.body;
+        let { userText, history = [] } = req.body;
 
-        // 如果用户输入一个 URL，就从 /api/read 抓取网页内容
+        // --- URL 解析部分（你原来的）
         if (userText.startsWith("http://") || userText.startsWith("https://")) {
-
             try {
                 const readRes = await fetch(`${req.headers.host.startsWith("localhost") ? "http" : "https"}://${req.headers.host}/api/read`, {
                     method: "POST",
@@ -35,19 +33,27 @@ export default async function handler(req, res) {
             }
         }
 
+        // --- 消息组装（开启记忆）
+        const messages = [
+            { role: "system", content: "You are a helpful assistant. Use the provided knowledge base first." },
+            ...history,
+            { role: "user", content: userText }
+        ];
+
+        // --- 启用 File Search（使用项目知识库）
         const completion = await client.chat.completions.create({
             model: "gpt-4.1",
-            messages: [
-                { role: "system", content: "You are a helpful assistant." },
-                { role: "user", content: userText },
-            ],
+            messages,
+            tools: [
+                { type: "file_search" }
+            ]
         });
 
         const reply = completion.choices?.[0]?.message?.content || "(empty reply)";
-        res.status(200).json({ reply });
+        return res.status(200).json({ reply });
 
     } catch (err) {
         console.error("OpenAI error:", err);
-        res.status(500).json({ error: "OpenAI error", detail: err.message || String(err) });
+        return res.status(500).json({ error: "OpenAI error", detail: err.message });
     }
 }
