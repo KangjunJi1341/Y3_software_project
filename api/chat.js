@@ -1,14 +1,19 @@
-// /api/chat.js  —— 用 Agents + fileSearch，和你朋友 CLI 一样的逻辑
+// /api/chat.js  —— Agents + FileSearch + embeddings + Supabase Logging
 
 import { Agent, Runner, fileSearchTool } from "@openai/agents";
 import { z } from "zod";
-import { supabaseAdmin } from "../supabaseServer.js";  // 路径：chat.js 在 /api 下
+import OpenAI from "openai";
+import { supabaseAdmin } from "../supabaseServer.js";
 
-// 1) 你的 vector store（和 agent.js 一样）
+// -----------------------------------
+// 1) File Search Vector Store
+// -----------------------------------
 const VECTOR_STORE_ID = "vs_692231d5414c8191bc1dbb7b121ff065";
 const fileSearch = fileSearchTool([VECTOR_STORE_ID]);
 
-// 2) 输出 schema（直接搬你朋友的）
+// -----------------------------------
+// 2) Schema（跟你朋友 agent.js 一样）
+// -----------------------------------
 const Schema = z.object({
     grade: z.string(),
     major: z.string(),
@@ -20,21 +25,34 @@ const Schema = z.object({
             snippet: z.string(),
             reason: z.string(),
         })
-    ),
+    )
 });
 
-// 3) 建一个全局 Agent（函数外面只建一次就行）
+// -----------------------------------
+// 3) Global Agent
+// -----------------------------------
 const agent = new Agent({
     name: "SchoolPolicyAgent",
     model: "gpt-4.1",
     instructions:
         "You are a school policy assistant. You MUST answer strictly using school policy files via File Search tool. " +
-        "If the policy does not cover the question, say clearly that it is not specified. " +
-        "Prefer Chinese in your final explanation.",
+        "If the policy does not cover the question, say clearly that it is not specified. ",
     tools: [fileSearch],
-    outputType: Schema,
+    outputType: Schema
 });
 
+// -----------------------------------
+// 4) OpenAI client for embeddings
+// -----------------------------------
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+    organization: process.env.OPENAI_ORG_ID,
+    project: process.env.OPENAI_PROJECT_ID
+});
+
+// -----------------------------------
+// 5) API Route Handler
+// -----------------------------------
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });
@@ -47,71 +65,110 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "userText is required" });
         }
 
-        const rawQuestion = userText;   // 原始问题，用来写入 question 列
+        const rawQuestion = userText;
 
-        // ---- 拼 history 文本，给 Agent 当上下文 ----
+        // -------------------------
+        // Combine history into one string
+        // -------------------------
         const historyText = history
-            .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
+            .map(m => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
             .join("\n");
 
         const fullInput =
             (historyText ? historyText + "\n\n" : "") + "User: " + userText;
 
+        // -------------------------
+        // Run Agent
+        // -------------------------
         const runner = new Runner();
         const result = await runner.run(agent, [
             {
                 role: "user",
-                content: [{ type: "input_text", text: fullInput }],
-            },
+                content: [{ type: "input_text", text: fullInput }]
+            }
         ]);
 
         const out = result.finalOutput || {};
 
+        // Final answer = conclusion + analysis
         const replyText =
             (out.conclusion ? out.conclusion + "\n\n" : "") +
             (out.analysis || "");
-
         const finalReply = replyText || "(empty reply)";
 
-        // ---- 整理 sources：把 related_policies 映射到数组 ----
+        // -------------------------
+        // Extract sources
+        // -------------------------
         const sourcesArray = Array.isArray(out.related_policies)
-            ? out.related_policies.map((p) => ({
+            ? out.related_policies.map(p => ({
                 file: p.file,
                 snippet: p.snippet,
-                reason: p.reason,
+                reason: p.reason
             }))
             : [];
 
-        // ---- 写入 Supabase 表 ----
-        try {
-            const { error: dbError } = await supabaseAdmin
-                .from("policy_answers")   //  这里是表名，如果你取别的名字就改成你的
-                .insert({
-                    question: rawQuestion,       //  question
-                    answer: finalReply,          //  answer
-                    sources: sourcesArray,       //  sources (jsonb)
-                    user_email: userEmail || null, //  user_email
-                    // created_at 通常在表里设 default now()，这里可以不传
-                });
+        const sourcesText = sourcesArray.map(s => s.snippet).join("\n\n");
 
-            if (dbError) {
-                console.error("Supabase insert error:", dbError);
-            }
-        } catch (dbErr) {
-            console.error("Supabase insert throw:", dbErr);
+        // -------------------------
+        // Generate embeddings
+        // -------------------------
+        let questionEmbedding = null;
+        let answerEmbedding = null;
+        let sourcesEmbedding = null;
+
+        try {
+            const emb = await openai.embeddings.create({
+                model: "text-embedding-3-small",
+                input: [rawQuestion, finalReply, sourcesText]
+            });
+
+            const [e1, e2, e3] = emb.data.map(d => d.embedding);
+            questionEmbedding = e1;
+            answerEmbedding = e2;
+            sourcesEmbedding = e3;
+
+        } catch (err) {
+            console.error("Embedding error:", err);
         }
 
-        // ---- 返回给前端 ----
+        // -------------------------
+        // Insert into Supabase
+        // -------------------------
+        try {
+            const { error: dbErr } = await supabaseAdmin
+                .from("policy_answers")   // <--- 如果你的表名不同，在这里改
+                .insert({
+                    question: rawQuestion,
+                    answer: finalReply,
+                    sources: sourcesArray,
+                    user_email: userEmail || null
+
+                    // vector columns:
+                    , question_embedding: questionEmbedding
+                    , answer_embedding: answerEmbedding
+                    , sources_embedding: sourcesEmbedding
+                });
+
+            if (dbErr) console.error("Supabase insert error:", dbErr);
+
+        } catch (e) {
+            console.error("Supabase insert exception:", e);
+        }
+
+        // -------------------------
+        // Return to frontend
+        // -------------------------
         return res.status(200).json({
             reply: finalReply,
             structured: out,
-            sources: sourcesArray, // 如果前端以后想用也方便
+            sources: sourcesArray
         });
+
     } catch (err) {
         console.error("Agent error:", err);
-        return res
-            .status(500)
-            .json({ error: "Agent error", detail: err.message || String(err) });
+        return res.status(500).json({
+            error: "Agent error",
+            detail: err.message || String(err)
+        });
     }
 }
-
