@@ -419,24 +419,39 @@ async function stopMicRecordingToDataUrl() {
 }
 
 // ask api place
-function assistantRespond(cid, userText) {
+      async function assistantRespond(cid, userText) {
+          try {
+              // 调后端接口
+              const res = await fetch('/api/chat', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ userText })
+              });
 
-  setTimeout(() => {
-    if (Math.random() < 0.2) {
-      addMessage(cid, 'error', 'Demo: No backend/LLM configured. This is a simulated failure.');
-    } else {
-      const reply = `Demo reply (mock): ${userText.toUpperCase()}`;
-      addMessage(cid, 'assistant', reply);
+              if (!res.ok) {
+                  const err = await res.json().catch(() => ({}));
+                  throw new Error(err.error || 'Backend error');
+              }
 
-      if (window.speechSynthesis) {
-        const utter = new SpeechSynthesisUtterance(reply);
-        utter.lang = 'en-US';
-        if (englishVoice) utter.voice = englishVoice;
-        window.speechSynthesis.speak(utter);
+              const data = await res.json();
+              const reply = data.reply || '(empty reply)';
+
+              // 显示 AI 回复
+              addMessage(cid, 'assistant', reply);
+
+              // 维持你原来的 TTS
+              if (window.speechSynthesis) {
+                  const utter = new SpeechSynthesisUtterance(reply);
+                  utter.lang = 'en-US';
+                  if (englishVoice) utter.voice = englishVoice;
+                  window.speechSynthesis.speak(utter);
+              }
+          } catch (e) {
+              console.error('assistantRespond error:', e);
+              addMessage(cid, 'error', 'Backend error: ' + e.message);
+          }
       }
-    }
-  }, 400);
-}
+
 
 function renderMessages(chatId) {
   const map = getMessagesMap();
