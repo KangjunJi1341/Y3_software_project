@@ -55,6 +55,186 @@
   const getUserType = () => (getCurrentEmail() ? 'regular' : 'guest');
   const entitlements = { guest: { maxMessagesPerDay: 20 }, regular: { maxMessagesPerDay: 100 } };
 
+  const TTS_CONFIG = {
+    appId: '',
+    apiKey: '',
+    apiSecret: '',
+    voice: 'xiaoyan',
+    speed: 50,
+    volume: 50,
+    pitch: 50,
+    host: 'tts-api.xfyun.cn',
+    audioPlayerScript: '/example/dist/index.umd.js',
+    workerBasePath: '/example/dist',
+    ...(window.TTS_CONFIG || {})
+  };
+
+  const hasTtsCredentials = () => Boolean(TTS_CONFIG.appId && TTS_CONFIG.apiKey && TTS_CONFIG.apiSecret);
+
+  const loadAudioPlayerScript = (() => {
+    let promise = null;
+    return () => {
+      if (promise) return promise;
+      promise = new Promise((resolve, reject) => {
+        if (window.AudioPlayer) return resolve(window.AudioPlayer);
+        const script = document.createElement('script');
+        script.src = TTS_CONFIG.audioPlayerScript || '/example/dist/index.umd.js';
+        script.async = true;
+        script.onload = () => resolve(window.AudioPlayer);
+        script.onerror = () => reject(new Error('Failed to load AudioPlayer script'));
+        document.head.appendChild(script);
+      });
+      return promise;
+    };
+  })();
+
+  const encodeTextForTts = (text) => {
+    if (!text) return '';
+    try {
+      if (window.Base64?.encode) return window.Base64.encode(text);
+    } catch {}
+    try {
+      return btoa(unescape(encodeURIComponent(text)));
+    } catch (e) {
+      console.error('encodeTextForTts failed', e);
+      return '';
+    }
+  };
+
+  async function hmacSha256Base64(secret, data) {
+    if (!window.crypto?.subtle) throw new Error('Web Crypto not available');
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const signature = await crypto.subtle.sign('HMAC', key, enc.encode(data));
+    const bytes = new Uint8Array(signature);
+    let binary = '';
+    for (const b of bytes) binary += String.fromCharCode(b);
+    return btoa(binary);
+  }
+
+  async function buildTtsWebSocketUrl() {
+    const host = TTS_CONFIG.host || 'tts-api.xfyun.cn';
+    const date = new Date().toUTCString();
+    const signatureOrigin = `host: ${host}\ndate: ${date}\nGET /v2/tts HTTP/1.1`;
+    const signature = await hmacSha256Base64(TTS_CONFIG.apiSecret, signatureOrigin);
+    const authorizationOrigin = `api_key="${TTS_CONFIG.apiKey}", algorithm="hmac-sha256", headers="host date request-line", signature="${signature}"`;
+    const authorization = btoa(authorizationOrigin);
+    return `wss://${host}/v2/tts?authorization=${encodeURIComponent(authorization)}&date=${encodeURIComponent(date)}&host=${encodeURIComponent(host)}`;
+  }
+
+  async function synthesizeTtsToDataUrl(text) {
+    if (!hasTtsCredentials()) return null;
+    const AudioPlayerCtor = await loadAudioPlayerScript();
+    if (!AudioPlayerCtor) throw new Error('AudioPlayer not available');
+    const player = new AudioPlayerCtor(TTS_CONFIG.workerBasePath || '/example/dist');
+
+    const wsUrl = await buildTtsWebSocketUrl();
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const fail = (err) => {
+        if (settled) return;
+        settled = true;
+        try { player.reset?.(); } catch {}
+        reject(err);
+      };
+      const finalize = async () => {
+        if (settled) return;
+        settled = true;
+        try {
+          const blob = player.getAudioDataBlob('wav');
+          if (!blob) return reject(new Error('No audio data returned'));
+          const dataUrl = await blobToDataUrl(blob);
+          resolve(dataUrl);
+        } catch (e) {
+          reject(e);
+        }
+      };
+
+      player.onStop = finalize;
+
+      let ws;
+      try { ws = new WebSocket(wsUrl); } catch (err) { fail(err); return; }
+
+      ws.onopen = () => {
+        player.start({ autoPlay: true, sampleRate: 16000, resumePlayDuration: 1000 });
+        ws.send(JSON.stringify({
+          common: { app_id: TTS_CONFIG.appId },
+          business: {
+            aue: 'raw',
+            auf: 'audio/L16;rate=16000',
+            vcn: TTS_CONFIG.voice || 'xiaoyan',
+            speed: Number(TTS_CONFIG.speed ?? 50),
+            volume: Number(TTS_CONFIG.volume ?? 50),
+            pitch: Number(TTS_CONFIG.pitch ?? 50),
+            bgs: 1,
+            tte: 'UTF8'
+          },
+          data: { status: 2, text: encodeTextForTts(text) }
+        }));
+      };
+
+      ws.onmessage = (evt) => {
+        try {
+          const jsonData = JSON.parse(evt.data);
+          if (jsonData.code !== 0) {
+            fail(new Error(jsonData.message || `TTS error: ${jsonData.code}`));
+            ws.close();
+            return;
+          }
+          player.postMessage({
+            type: 'base64',
+            data: jsonData.data?.audio,
+            isLastData: jsonData.data?.status === 2
+          });
+          if (jsonData.data?.status === 2) ws.close();
+        } catch (e) {
+          fail(e);
+          ws.close();
+        }
+      };
+
+      ws.onerror = () => fail(new Error('TTS websocket error'));
+      ws.onclose = () => {
+        if (!settled) {
+          try { player.stop(); } catch {}
+        }
+      };
+    });
+  }
+
+  function attachAssistantAudio(chatId, text, audioDataUrl) {
+    if (!audioDataUrl) return;
+    const map = getMessagesMap();
+    const arr = map[chatId] || [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (arr[i].role === 'assistant' && arr[i].text === text && !arr[i].audioDataUrl) {
+        arr[i] = { ...arr[i], audioDataUrl, asrMethod: 'tts-api' };
+        break;
+      }
+    }
+    map[chatId] = arr;
+    setMessagesMap(map);
+    renderMessages(chatId);
+  }
+
+  async function speakAssistantReply(chatId, replyText) {
+    if (!replyText) return;
+    if (hasTtsCredentials()) {
+      try {
+        const audioDataUrl = await synthesizeTtsToDataUrl(replyText);
+        if (audioDataUrl) return attachAssistantAudio(chatId, replyText, audioDataUrl);
+      } catch (err) {
+        console.error('TTS API failed:', err);
+      }
+    }
+    if (window.speechSynthesis) {
+      const utter = new SpeechSynthesisUtterance(replyText);
+      utter.lang = 'en-US';
+      if (englishVoice) utter.voice = englishVoice;
+      window.speechSynthesis.speak(utter);
+    }
+  }
+
   const withinLastHours = (iso, hours) => (Date.now() - new Date(iso).getTime()) <= hours * 3600 * 1000;
 
   function getDailyUserMessageCount(emailOrNull) {
@@ -496,6 +676,8 @@ function renderMessages(chatId) {
         methodBadge = '<span style="color: #28a745; font-weight: bold;"> ASR result</span>';
       } else if (m.asrMethod === 'browser-api') {
         methodBadge = '<span style="color: #007bff;"> 浏览器 API</span>';
+      } else if (m.asrMethod === 'tts-api') {
+        methodBadge = '<span style="color: #6b21a8; font-weight: bold;"> TTS</span>';
       }
       
       caption.innerHTML = `${methodBadge}: ${m.text || '(no transcript)'}`;
