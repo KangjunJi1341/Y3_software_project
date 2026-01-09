@@ -56,10 +56,10 @@
   const entitlements = { guest: { maxMessagesPerDay: 20 }, regular: { maxMessagesPerDay: 100 } };
 
   const TTS_CONFIG = {
-    appId: '',
-    apiKey: '',
-    apiSecret: '',
-    voice: 'xiaoyan',
+    appId: '164ad4a9',
+    apiKey: '65c4f69e21241401a6e040cca654d145',
+    apiSecret: 'ZTkwNDY3ODc1YTA4YWE5ZGIwMDc5MzEz',
+    voice: 'Ryan',
     speed: 50,
     volume: 50,
     pitch: 50,
