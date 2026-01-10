@@ -12,14 +12,16 @@
       align-items: center;
       justify-content: center;
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: linear-gradient(to bottom, #e2e8f0, #ffffff);
+      background: radial-gradient(circle at top, #1f2937 0%, #0f172a 45%, #020617 100%);
     }
     .card {
-      background: #fff;
+      background: #111827;
       width: 360px;
       border-radius: 16px;
-      box-shadow: 0 18px 40px rgba(15,23,42,.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
       padding: 26px 26px 20px;
+      border: 1px solid rgba(148, 163, 184, 0.08);
+      color: #e5e7eb;
     }
     h1 {
       margin: 0 0 4px;
@@ -28,7 +30,7 @@
     }
     .sub {
       margin: 0 0 18px;
-      color: #6b7280;
+      color: #94a3b8;
       font-size: 13px;
     }
     .field {
@@ -42,10 +44,13 @@
     input {
       width: 100%;
       padding: 8px 10px;
-      border: 1px solid #e5e7eb;
+      background: #0f172a;
+      border: 1px solid rgba(148, 163, 184, 0.2);
       border-radius: 10px;
       outline: none;
       font-size: 14px;
+      color: #e5e7eb;
+      box-sizing: border-box;
     }
     input:focus {
       border-color: #2563eb;
@@ -69,7 +74,7 @@
       font-size: 13px;
     }
     .link {
-      color: #2563eb;
+      color: #93c5fd;
       text-decoration: none;
       cursor: pointer;
     }
