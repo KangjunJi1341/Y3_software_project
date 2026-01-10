@@ -415,7 +415,8 @@ let englishVoice = null;
             'Microsoft Mark',
             'Microsoft David',
             'Alex',
-            'Tom'
+            'Tom',
+            'male'
           ];
           
           englishVoice = englishVoices.find(v => maleVoiceNames.some(name => v.name.includes(name))) ||
